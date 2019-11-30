@@ -114,7 +114,7 @@ public class CacheBuilder {
       }
     }
   }
-
+//装饰者设计模式
   private Cache setStandardDecorators(Cache cache) {
     try {
       MetaObject metaCache = SystemMetaObject.forObject(cache);

@@ -28,7 +28,9 @@ import org.apache.ibatis.cache.Cache;
 public class LruCache implements Cache {
 
   private final Cache delegate;
+  //记录所有的key
   private Map<Object, Object> keyMap;
+  //最长时间没用的一个key
   private Object eldestKey;
 
   public LruCache(Cache delegate) {
@@ -87,7 +89,8 @@ public class LruCache implements Cache {
   private void cycleKeyList(Object key) {
     keyMap.put(key, key);
     if (eldestKey != null) {
-      delegate.removeObject(eldestKey);
+      //如果有的话，就把最老的key移除掉，找下一个最老的key
+     delegate.removeObject(eldestKey);
       eldestKey = null;
     }
   }

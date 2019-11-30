@@ -34,6 +34,8 @@ public class Test {
     String resource = "mybatis.xml";
     InputStream inputStream = Resources.getResourceAsStream(resource);
     SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+    //默认Sqlsession不会自动提交
     SqlSession sqlSession = sqlSessionFactory.openSession();
     SqlSession sqlSession1 = sqlSessionFactory.openSession();
     //从调用者角度来讲 与数据库打交道的对象 SqlSession

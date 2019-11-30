@@ -128,9 +128,10 @@ public class MapperBuilderAssistant extends BaseBuilder {
       boolean readWrite,
       boolean blocking,
       Properties props) {
+    //构造器模式
     Cache cache = new CacheBuilder(currentNamespace)
-        .implementation(valueOrDefault(typeClass, PerpetualCache.class))
-        .addDecorator(valueOrDefault(evictionClass, LruCache.class))
+        .implementation(valueOrDefault(typeClass, PerpetualCache.class))//构造基础节点
+        .addDecorator(valueOrDefault(evictionClass, LruCache.class))//添加装饰节点
         .clearInterval(flushInterval)
         .size(size)
         .readWrite(readWrite)

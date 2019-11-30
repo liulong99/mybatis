@@ -26,6 +26,7 @@ import org.apache.ibatis.cache.CacheException;
  */
 public class PerpetualCache implements Cache {
 
+  //id 在这里代表namespaces
   private final String id;
 
   private Map<Object, Object> cache = new HashMap<>();

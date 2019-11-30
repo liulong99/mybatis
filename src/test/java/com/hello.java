@@ -16,7 +16,15 @@
 package com;
 
 public class hello {
+  boolean b;
   public static void main(String[] args) {
+    hello h=new hello();
+
     System.out.println("hello world");
+    if(h.b){
+      System.out.println(h.b+"if");
+    }else{
+      System.out.println(h.b+"else");
+    }
   }
 }

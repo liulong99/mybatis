@@ -38,10 +38,13 @@ import org.apache.ibatis.logging.LogFactory;
 public class TransactionalCache implements Cache {
 
   private static final Log log = LogFactory.getLog(TransactionalCache.class);
-
+//缓存对象
   private final Cache delegate;
+  //是否需要清空提交空间的标识
   private boolean clearOnCommit;
+  //所有待提交的缓存
   private final Map<Object, Object> entriesToAddOnCommit;
+  //未命中的缓存集合  防止缓存穿透 防止一直访问一个为null key 导致一直查询数据
   private final Set<Object> entriesMissedInCache;
 
   public TransactionalCache(Cache delegate) {
@@ -64,6 +67,7 @@ public class TransactionalCache implements Cache {
   @Override
   public Object getObject(Object key) {
     // issue #116
+    //先通过key看看缓存里有没有
     Object object = delegate.getObject(key);
     if (object == null) {
       entriesMissedInCache.add(key);
@@ -76,6 +80,8 @@ public class TransactionalCache implements Cache {
     }
   }
 
+  //本来应该put到缓存里面去
+  //现在put到了需要提交的空间里面去了
   @Override
   public void putObject(Object key, Object object) {
     entriesToAddOnCommit.put(key, object);
@@ -113,9 +119,11 @@ public class TransactionalCache implements Cache {
 
   private void flushPendingEntries() {
     for (Map.Entry<Object, Object> entry : entriesToAddOnCommit.entrySet()) {
+      //put 到真实缓存
       delegate.putObject(entry.getKey(), entry.getValue());
     }
     for (Object entry : entriesMissedInCache) {
+      //把未命中的一起put
       if (!entriesToAddOnCommit.containsKey(entry)) {
         delegate.putObject(entry, null);
       }

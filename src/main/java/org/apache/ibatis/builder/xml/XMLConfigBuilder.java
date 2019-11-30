@@ -254,7 +254,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   private void settingsElement(Properties props) {
     configuration.setAutoMappingBehavior(AutoMappingBehavior.valueOf(props.getProperty("autoMappingBehavior", "PARTIAL")));
     configuration.setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior.valueOf(props.getProperty("autoMappingUnknownColumnBehavior", "NONE")));
-    configuration.setCacheEnabled(booleanValueOf(props.getProperty("cacheEnabled"), true));
+    configuration.setCacheEnabled(booleanValueOf(props.getProperty("cacheEnabled"), true));//全局缓存默认是打开的
     configuration.setProxyFactory((ProxyFactory) createInstance(props.getProperty("proxyFactory")));
     configuration.setLazyLoadingEnabled(booleanValueOf(props.getProperty("lazyLoadingEnabled"), false));
     configuration.setAggressiveLazyLoading(booleanValueOf(props.getProperty("aggressiveLazyLoading"), false));
